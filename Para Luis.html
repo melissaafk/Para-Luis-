@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Luis</title>
+  <style>
+    body {
+      font-family: 'Sniglet', cursive;
+      background-color: #efefef;
+      color: #19120c;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1, h2, p {
+      margin: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      background-color: #ff5995;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #ffdada;
+      color: #19120c;
+    }
+
+    img {
+      margin-top: 20px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+
+    .feeling {
+      font-family: 'Feeling Passionate', cursive;
+      font-size: 24px;
+      color: #ff5995;
+    }
+
+    /* Corazones flotando */
+    .heart {
+      position: fixed;
+      bottom: 0;
+      font-size: 24px;
+      color: #ff5995;
+      animation: float 6s linear infinite;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/feeling-passionate" rel="stylesheet">
+</head>
+<body>
+  <!-- Pantalla 1: contraseña -->
+  <div id="login">
+    <h1>Un día del 2024...</h1>
+    <p>Tomaste la decisión de hacerme la mujer más feliz de todas, con tu compañía y tu amor.  
+    <br>¿Qué día fue?</p>
+    <input type="text" id="password" placeholder="Escribe la fecha...">
+    <br><br>
+    <button onclick="checkPassword()">Entrar</button>
+    <p id="error" style="color:red;"></p>
+  </div>
+
+  <!-- Pantalla 2: después de la contraseña -->
+  <div id="afterLogin" class="hidden">
+    <h2>Exacto jajaja, hola ❤️</h2>
+    <p>Sé que es muy raro recibir esto un día de la nada, probablemente me tarde días aprendiendo a poner códigos,
+    no me culpes si le pido a la IA que me ayude, no sé programar.  
+    <br>Sólo quería demostrarte de una manera diferente todo lo que significas para mí.</p>
+
+    <h2>Días que han pasado desde el 29 de febrero 2024:</h2>
+    <h1 id="contador"></h1>
+
+    <p>¿Me amas?</p>
+    <button onclick="showLove()">Sí ❤️</button>
+    <button onclick="showNoLove()">No 💔</button>
+
+    <p id="loveMessage" class="hidden"></p>
+  </div>
+
+  <!-- Pantalla 3: foto y mensaje -->
+  <div id="finalMessage" class="hidden">
+    <p class="feeling">Oye qué bueno Yo te amo más :)</p>
+    <img src="yo10.jpg" alt="Yo de niña">
+    <p>
+      Mira, esta soy yo como a los 10 años.  
+      Quiero que sepas que infinitas veces has hecho muy feliz a esa niña.  
+      No sabes las emociones que le has generado cuando le das un detalle,  
+      cuando la miras fijamente, cuando le sonríes, cuando la abrazas y la besas.  
+      Incluso, cuando llora y le secas las lágrimas.  
+    </p>
+    <p>
+      Quiero agradecerte por el maravilloso hombre que eres.  
+      Me llenas el corazón de amor y me haces muy feliz. ❤️
+    </p>
+  </div>
+
+  <script>
+    function checkPassword() {
+      let input = document.getElementById("password").value.trim().toLowerCase();
+      let validPasswords = [
+        "29 de febrero", "29 febrero", "29/02", "29-02", "29 02", "2902",
+        "29 02 24", "29 02 2024", "29 de febrero 2024", "29/02/24", "29/02/2024"
+      ];
+
+      if (validPasswords.includes(input)) {
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("afterLogin").classList.remove("hidden");
+        startCounter();
+      } else {
+        document.getElementById("error").innerText = "Ya dime que me odias si no te la sabes :(";
+      }
+    }
+
+    function startCounter() {
+      let startDate = new Date("2024-02-29");
+      let today = new Date();
+      let difference = today - startDate;
+      let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      document.getElementById("contador").innerText = days + " días";
+    }
+
+    function showLove() {
+      document.getElementById("loveMessage").classList.add("hidden");
+      document.getElementById("afterLogin").classList.add("hidden");
+      document.getElementById("finalMessage").classList.remove("hidden");
+    }
+
+    function showNoLove() {
+      let message = document.getElementById("loveMessage");
+      message.innerText = "¿En serio? 😢";
+      message.classList.remove("hidden");
+    }
+
+    // Corazones flotando por toda la pantalla
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 20 + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 600);
+  </script>
+</body>
+</html>
